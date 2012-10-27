@@ -87,7 +87,7 @@
             </div>
         </div>
         <div data-role="page" id="page3">
-            <<script type="text/javascript">
+            <script type="text/javascript">
                 function take_photo(){
                     navigator.camera.getPicture(onSuccess, onFail, { quality: 50 });        
                 }
@@ -101,6 +101,9 @@
                    alert('Failed because: ' + message);
                 }
             </script>
+                <a data-role="button" onclick="take_photo();">
+                    Button
+                </a>
         </div>
     </body>
 
