@@ -18,6 +18,20 @@
         </script>
         <script src="my.js">
         </script>
+        <<script type="text/javascript">
+            function getPictureFromCamera(){     
+    navigator.camera.getPicture(onSuccess, onFail, { quality: 50, destinationType:Camera.DestinationType.FILE_URI });              
+    function onSuccess(imageURI) {         
+        $('#camera-image').css({'background-image': 'url('+imageURI+')', 'background-size': '100%'}); 
+    }
+    function onFail(message) {console.log('Failed to get an image');}}      
+function getPictureFromGallery(){ 
+    navigator.camera.getPicture(onSuccess, onFail, { quality: 50, destinationType: Camera.DestinationType.FILE_URI, sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY });
+    function onSuccess(imageURI) {
+        $('#camera-image').css({'background-image': 'url('+imageURI+')', 'background-size': '100%'});
+    }             
+    function onFail(message) { console.log('Failed to get an image');}}
+        </script>
     </head>
     
     <body>
@@ -87,23 +101,11 @@
             </div>
         </div>
         <div data-role="page" id="page3">
-            <script type="text/javascript">
-                function take_photo(){
-                    navigator.camera.getPicture(onSuccess, onFail, { quality: 50 });        
-                }
-
-                function onSuccess(imageData) {
-                   var image = document.getElementById('myImage');
-                   image.src = "data:image/jpeg;base64," + imageData;
-                }
-
-                function onFail(message) {
-                   alert('Failed because: ' + message);
-                }
-            </script>
-                <a data-role="button" onclick="take_photo();">
-                    Button
-                </a>
+            <fieldset class="ui-grid-a">             
+                <div class="ui-block-a"><button type="button" data-theme="c" data-icon="plus" ontouchstart="getPictureFromCamera();">Camera</button></div> 
+                <div class="ui-block-b"><button type="button" data-theme="c" data-icon="search" ontouchstart="getPictureFromGallery();">Gallery</button></div> 
+            </fieldset>         
+            <div id="camera-image" class="ui-body ui-body-b" style="background-size:100%;min-height:250px"></div>
         </div>
     </body>
 
