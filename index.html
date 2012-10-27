@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+    
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>
+        </title>
+        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/jquery.mobile/1.1.1/jquery.mobile-1.1.1.min.css"
+        />
+        <link rel="stylesheet" href="my.css" />
+        <style>
+            /* App custom styles */
+        </style>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js">
+        </script>
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery.mobile/1.1.1/jquery.mobile-1.1.1.min.js">
+        </script>
+        <script src="my.js">
+        </script>
+    </head>
+    
+    <body>
+        <!-- Home -->
+        <div data-role="page" id="page1" style="background: url('images/bg.jpg') no-repeat">
+            <div data-role="content" style="padding: 15%">
+                <div data-role="fieldcontain">
+                    <fieldset data-role="controlgroup">
+                        <label for="textinput1">
+                            用户名
+                        </label>
+                        <input name="" id="textinput1" placeholder="" value="" type="text">
+                    </fieldset>
+                </div>
+                <div data-role="fieldcontain">
+                    <fieldset data-role="controlgroup">
+                        <label for="textinput2">
+                            密码
+                        </label>
+                        <input name="" id="textinput2" placeholder="" value="" type="password">
+                    </fieldset>
+                </div>
+                <input id="login_submit" type="submit" data-icon="check" data-iconpos="left"
+                value="Submit">
+                <a data-role="button" data-transition="slide" href="#page3">
+                    Button
+                </a>
+            </div>
+        </div>
+        <!-- list -->
+        <div data-role="page" id="page2">
+            <div data-role="content">
+                 <iframe id="partner_login_ifrm" frameborder="0" border="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
+                <script type="text/javascript">
+                    $('#partner_login_ifrm').css({'width' : $(window).width() , 'height' : $(window).height()}); 
+                    $('#partner_login_ifrm').attr("src","http://192.168.137.2/gap/test.html")
+                </script>
+                <div data-role="collapsible-set">
+                    <div data-role="collapsible" data-collapsed="false">
+                        <h3>
+                            已报名
+                        </h3>
+                        <ul data-role="listview" data-divider-theme="b">
+                            <li data-theme="c">
+                                <a href="#" data-transition="slide">
+                                    Button
+                                </a>
+                            </li>
+                            <li data-theme="c">
+                                <a href="#" data-transition="slide">
+                                    Button2
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div data-role="collapsible" data-collapsed="true">
+                        <h3>
+                            公益
+                        </h3>
+                    </div>
+                    <div data-role="collapsible" data-collapsed="true">
+                        <h3>
+                            音乐
+                        </h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div data-role="page" id="page3">
+<script type="text/javascript" charset="utf-8">
+
+    var pictureSource;      //图片来源
+    var destinationType;        //设置返回值的格式
+    
+    // 等待PhoneGap连接设备
+    document.addEventListener("deviceready",onDeviceReady,false);
+    
+    // PhoneGap准备就绪，可以使用！
+    function onDeviceReady() {
+        pictureSource=navigator.camera.PictureSourceType;
+        destinationType=navigator.camera.DestinationType;
+    }
+    
+    // 当成功获得一张照片的Base64编码数据后被调用
+    function onPhotoDataSuccess(imageData) {
+    
+        // 取消注释以查看Base64编码的图像数据
+        // console.log(imageData);
+        // 获取图像句柄
+        var smallImage = document.getElementById('smallImage');
+             
+        // 取消隐藏的图像元素
+        smallImage.style.display = 'block';
+        
+        // 显示拍摄的照片
+        // 使用内嵌CSS规则来缩放图片
+        smallImage.src = "data:image/jpeg;base64," + imageData;
+    }
+       
+   // 当成功得到一张照片的URI后被调用
+   function onPhotoURISuccess(imageURI) {
+    
+        // 取消注释以查看图片文件的URI
+        // console.log(imageURI);
+        // 获取图片句柄
+        var largeImage = document.getElementById('largeImage');
+         
+        // 取消隐藏的图像元素
+        largeImage.style.display = 'block';
+    
+        // 显示拍摄的照片
+        // 使用内嵌CSS规则来缩放图片
+        largeImage.src = imageURI;
+    }
+       
+   // “Capture Photo”按钮点击事件触发函数
+   function capturePhoto() {
+
+        // 使用设备上的摄像头拍照，并获得Base64编码字符串格式的图像
+        navigator.camera.getPicture(onPhotoDataSuccess, onFail, { quality: 50 });
+   }
+   
+   // “Capture Editable Photo”按钮点击事件触发函数
+   function capturePhotoEdit() {
+
+        // 使用设备上的摄像头拍照，并获得Base64编码字符串格式的可编辑图像
+        navigator.camera.getPicture(onPhotoDataSuccess, onFail, { quality: 20, allowEdit: true });
+   }
+       
+   //“From Photo Library”/“From Photo Album”按钮点击事件触发函数
+   function getPhoto(source) {
+   
+        // 从设定的来源处获取图像文件URI
+        navigator.camera.getPicture(onPhotoURISuccess, onFail, { quality: 50,
+        destinationType: destinationType.FILE_URI,sourceType: source });
+   }
+
+   // 当有错误发生时触发此函数
+   function onFail(mesage) {
+        alert('Failed because: ' + message);
+   }
+    
+</script>
+
+    <button onclick="capturePhoto();">Capture Photo</button> <br>
+    <button onclick="capturePhotoEdit();">Capture Editable Photo</button> <br>
+    <button onclick="getPhoto(pictureSource.PHOTOLIBRARY);">From Photo Library</button><br>
+    <button onclick="getPhoto(pictureSource.SAVEDPHOTOALBUM);">From Photo Album</button><br>
+    <img style="display:none;width:60px;height:60px;" id="smallImage" src="" />
+    <img style="display:none;" id="largeImage" src="" />
+    </body>
+        </div>
+
+ 
+        <script>
+              //App custom javascript
+        function take_photo(){
+        navigator.camera.getPicture(uploadPhoto,  
+        function(message){ 
+            alert('get picture failed');},  
+            { quality:50,  
+            destinationType: navigator.camera.DestinationType.FILE_URI,  
+            sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY }  
+            );  
+        }  
+ 
+        function uploadPhoto(imageURI){  
+            var options =newFileUploadOptions();  
+            options.fileKey="file";  
+            options.fileName=imageURI.substr(imageURI.lastIndexOf('/')+1);  
+            options.mimeType="image/jpeg";  
+ 
+            var params =newObject();  
+            params.value1 ="test";  
+            params.value2 ="param";  
+ 
+            options.params = params;  
+ 
+            var ft =newFileTransfer();  
+            ft.upload(imageURI,"http://some.server.com/upload.php", win, fail, options);  
+        }  
+ 
+        function win(r){  
+            console.log("Code = "+ r.responseCode);  
+            console.log("Response = "+ r.response);  
+            console.log("Sent = "+ r.bytesSent);  
+        }  
+ 
+        function fail(error){  
+            alert("An error has occurred: Code = "+ error.code);  
+        }  
+        </script>
+    </body>
+
+<script type="text/javascript">
+    window.onmessage=function(e)
+    {
+     /*   $("#partner_login_ifrm").remove()
+
+        var json_str = e.data;
+        var json_data = JSON.parse(json_str);
+     
+        var access_token = json_data.access_token;          //iframe传递过来的access_token
+        var uid = json_data.uid;                    //iframe传递过来的uid
+        var data = json_data.data;      */                //iframe传递过来的data
+    }</script>
+</html>
